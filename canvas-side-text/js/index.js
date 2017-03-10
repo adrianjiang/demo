@@ -101,7 +101,10 @@ S.UI = (function () {
       currentAction,
       resizeTimer,
       time,
-      maxShapeSize = 30,
+      // maxShapeSize = 30,
+
+      maxShapeSize = 10,
+
       firstAction = true,
       sequence = [],
       cmd = '#';
@@ -139,6 +142,7 @@ S.UI = (function () {
     }
   }
 
+  //停止动画
   function reset(destroy) {
     clearInterval(interval);
     sequence = [];
@@ -146,7 +150,9 @@ S.UI = (function () {
     destroy && S.Shape.switchShape(S.ShapeBuilder.letter(''));
   }
 
+  // 这个函数是关键，绘制文字
   function performAction(value) {
+    console.log()
     var action,
         value,
         current;
@@ -214,7 +220,12 @@ S.UI = (function () {
     }, 2000, sequence.length);
   }
 
+  //改变输入框样式
   function checkInputWidth(e) {
+    //回车后触发 
+    console.log('checkInputWidth',e)
+
+    //若字符串达到一定长度则改变样式
     if (input.value.length > 18) {
       ui.classList.add('ui--wide');
     } else {
@@ -231,7 +242,7 @@ S.UI = (function () {
   function bindEvents() {
     document.body.addEventListener('keydown', function (e) {
       input.focus();
-
+      //按下回车后触发
       if (e.keyCode === 13) {
         firstAction = false;
         reset();
@@ -301,7 +312,16 @@ S.UI = (function () {
   return {
     simulate: function (action) {
       performAction(action);
+    },
+
+    /*----------------------
+      by adrian
+    */
+    reset: function(){
+      reset();
     }
+    // ---------------------------
+
   }
 }());
 
@@ -379,7 +399,9 @@ S.Dot = function (x, y) {
     h: 0
   });
 
-  this.e = 0.07;
+  // this.e = 0.07;
+  this.e = 0.03;
+
   this.s = true;
 
   this.c = new S.Color(255, 255, 255, this.p.a);

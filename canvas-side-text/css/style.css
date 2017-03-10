@@ -35,6 +35,15 @@ body,
 }
 
 .body--ready {
+    background: -webkit-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(1, 35, 51) 120%);
+    background: -moz-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
+    background: -o-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
+    background: -ms-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
+    background: linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
+}
+
+/*
+.body--ready {
   /* Ideas
   background: -webkit-linear-gradient(top, #e2b986 -10%, #241c35 140%);
   background: -webkit-linear-gradient(top, #c97369 -40%, #241c35 130%);
@@ -43,7 +52,7 @@ body,
   background: -webkit-linear-gradient(top, rgb(129, 0, 170) 0%, rgb(43, 4, 114) 110%);
   background: -webkit-linear-gradient(top, rgb(163, 235, 189) 0%, rgb(16, 93, 145) 110%);
   background: -webkit-linear-gradient(top, rgb(165, 103, 189) 0%, rgb(75, 233, 214) 120%);
-  */
+  
 
   background: -webkit-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
   background: -moz-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
@@ -51,6 +60,7 @@ body,
   background: -ms-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
   background: linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
 }
+*/
 
 .body--ready .overlay {
   -webkit-transition: -webkit-transform 0.7s cubic-bezier(0.694, 0.0482, 0.335, 1),
