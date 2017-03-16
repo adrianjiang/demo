@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>缓动算法</title>
+		<!--<link rel="stylesheet" type="text/css" href="http://public.7east.cn/cdn/layui/css/layui.css">-->
+		<link rel="stylesheet" type="text/css" href="./layui/css/layui.css">
+		
+		<style type="text/css">
+			.box{
+				position: absolute;
+				width: 600px;
+				height: 500px;
+				margin: 30px;
+				background-color: #FBFCE1;
+			}	
+			#box2{
+				width: 80px;
+				left: 650px;
+				background-color: #FBFCE1;
+			}
+		</style>
+		
+	</head>
+	<body>
+	<div style="height: 530px;">
+		<div class="box" id="box"></div>
+		<div class="box" id="box2"></div>
+		
+	</div>
+		
+
+		
+<form class="layui-form" action="">
+	<fieldset class="layui-elem-field layui-field-title">
+	  <legend>曲线类型</legend>
+	  <div class="layui-field-box" id="tween" onclick="change()">
+	   <div class="layui-form-item" pane="" >
+		    <!--<label class="layui-form-label"></label>-->
+		    <div class="layui-input-block" >
+		      <input type="radio" name="tween"  value="Linear" title="Linear" checked="">
+		      <input type="radio" name="tween" value="Quad" title="Quad">
+		      <input type="radio" name="tween" value="Cubic" title="Cubic">
+		      <input type="radio" name="tween" value="Quart" title="Quart">
+		      <input type="radio" name="tween" value="Quint" title="Quint">
+		      <input type="radio" name="tween" value="Sine" title="Sine">
+		      <input type="radio" name="tween" value="Expo" title="Expo">
+		      <input type="radio" name="tween" value="Circ" title="Circ">
+		      <input type="radio" name="tween" value="Elastic" title="Elastic">
+		      <input type="radio" name="tween" value="Back" title="Back">
+		      <input type="radio" name="tween" value="Bounce" title="Bounce">
+		      
+		    </div>
+		</div>
+	  </div>
+	</fieldset>
+
+	<fieldset class="layui-elem-field layui-field-title">
+	  <legend>ease类型</legend>
+	  <div class="layui-field-box" id="ease" onclick="change()">
+	   <div class="layui-form-item" pane="">
+		    <!--<label class="layui-form-label"></label>-->
+		    <div class="layui-input-block" >
+		      <input type="radio" name="ease" value="easeIn" title="easeIn" checked="">
+		      <input type="radio" name="ease" value="easeOut" title="easeOut">
+		      <input type="radio" name="ease" value="easeInOut" title="easeInOut">		      
+		    </div>
+		</div>
+	  </div>
+	<fieldset class="layui-elem-field">
+	  <legend>执行</legend>
+	  <div class="layui-field-box">
+			<div class="layui-form-item">
+			    <label class="layui-form-label">加速</label>
+			    <div class="layui-input-block">
+			      <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+			    </div>
+		  	</div>
+		  	<!--<button type="jiang" class="layui-btn layui-btn-big">run</button>-->
+		  	<input type="button" onclick="run()" class="layui-btn layui-btn-big" value="run">
+	  </div>
+	</fieldset>
+  	
+  	
+</form>   
+	<!--<script src="http://public.7east.cn/cdn/layui/layui.js" type="text/javascript" charset="utf-8"></script>-->
+	<script src="./layui/layui.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script src="http://localhost:8000/assets/app.js"></script>
+
+<script type="text/javascript">
+
+
+	var quxian = E.canvas(document.getElementById('box'),function(e){
+		var ctx = e.ctx;
+
+		ctx.beginPath();
+		ctx.moveTo(0,e.height - 100);
+		var x = 0;
+		var easeIn = E.tween.Quint.easeOut;
+
+		for(var i = 0; i < e.width; i ++){
+			x++;
+			var y = easeIn(x,0,300,e.width);
+			ctx.lineTo(x,e.height - 100 - y);
+			ctx.stroke();			
+		}
+		
+//		console.log(x,e.width,y)
+		return {
+			clear: function(){
+				e.clear()
+			},
+			tween: E.tween.Quint.easeOut,
+			do: function(){
+				this.clear();
+				ctx.beginPath();
+				ctx.moveTo(0,e.height - 100);
+				var x = 0;
+				for(var i = 0; i < e.width; i ++){
+					x++;
+					var y = this.tween(x,0,300,e.width);
+					ctx.lineTo(x,e.height - 100 - y);
+					ctx.stroke();			
+				}
+			}
+			
+		}
+		
+	});
+	
+	huakuai = E.canvas(document.getElementById('box2'),function(e){
+		
+		var ctx = e.ctx;
+		var r = 40;
+		ctx.fillStyle="#FF0000";
+
+		ctx.arc(r,r,r,0,Math.PI*2,true);
+		
+		ctx.fill();
+	});
+	
+	function run(){
+		console.log('run')
+		
+		
+	}
+	function change(){
+
+		var type = $('#tween').find('div[class="layui-unselect layui-form-radio layui-form-radioed"]').find('span').html();
+		var ease = $('#ease').find('div[class="layui-unselect layui-form-radio layui-form-radioed"]').find('span').html();		
+	
+		
+		if(type == 'Linear'){
+			quxian.tween = E.tween[type];
+		}else{
+			quxian.tween = E.tween[type][ease];
+		}
+		
+		console.log(type, ease, E.tween[type]);
+		
+		quxian.do();
+	}
+
+
+	 
+</script>
+	</body>
+</html>

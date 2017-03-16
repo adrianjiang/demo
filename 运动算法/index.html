@@ -1,0 +1,33 @@
+
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+<style type="text/css">
+<-- #mydiv{
+    width:100px;height:100px;border:2px solid black} !--></style>
+</head>
+<body>
+    <div id="mydiv" style="position:absolute;top:150px;left:0px;width:100px;height:100px;border:2px solid black" >move</div>
+    <script type="text/javascript">
+window.onload=function(){
+var obj=document.getElementByIdx_x_x_x_x('mydiv');
+//下面几个参数分别表示动画从第一帧开始，持续20帧，移动的距离为300px，开始的位置为20px
+var n=0,p=300,a=20,b=20;
+//var date1 = new Date(); //调试用时间戳1
+function changeStyle(){
+obj.style.left=n/a*p+b+'px';
+if(n < a){
+setTimeout(changeStyle,20);//这里的20即一秒50帧
+n++;
+}else{
+//var date2 = new Date(); //调试用时间戳2
+//alert(date2 - date1); //时间差，大家可以看看持续20帧是不是20/50秒 （肯定有点点差异）
+}
+}
+changeStyle();
+}
+</script>
+</body>
+</html>
