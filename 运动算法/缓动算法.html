@@ -91,13 +91,23 @@
 <script type="text/javascript">
 
 
-	var quxian = E.canvas(document.getElementById('box'),function(e){
+	var chart = E.canvas(document.getElementById('box'),function(e){
 		var ctx = e.ctx;
+		//画辅助线
+		ctx.beginPath();
+		ctx.strokeStyle = 'green';
+		ctx.moveTo(0,e.height - 100);
+		ctx.lineTo(e.width,e.height - 100);
+		ctx.moveTo(0,100);
+		ctx.lineTo(e.width,100);
+		ctx.stroke();		
 
 		ctx.beginPath();
+		ctx.strokeStyle = '#000000';
+
 		ctx.moveTo(0,e.height - 100);
 		var x = 0;
-		var easeIn = E.tween.Quint.easeOut;
+		var easeIn = E.tween.Linear;
 
 		for(var i = 0; i < e.width; i ++){
 			x++;
@@ -114,7 +124,19 @@
 			tween: E.tween.Quint.easeOut,
 			do: function(){
 				this.clear();
+
+				//画辅助线
 				ctx.beginPath();
+				ctx.strokeStyle = 'green';
+				ctx.moveTo(0,e.height - 100);
+				ctx.lineTo(e.width,e.height - 100);
+				ctx.moveTo(0,100);
+				ctx.lineTo(e.width,100);
+				ctx.stroke();				
+
+				ctx.beginPath();
+				ctx.strokeStyle = '#000000';
+
 				ctx.moveTo(0,e.height - 100);
 				var x = 0;
 				for(var i = 0; i < e.width; i ++){
@@ -129,20 +151,67 @@
 		
 	});
 	
+	//滑块
 	huakuai = E.canvas(document.getElementById('box2'),function(e){
 		
 		var ctx = e.ctx;
-		var r = 40;
+		var r = 30;
+		ctx.beginPath();
+		ctx.strokeStyle = 'green';
+		ctx.moveTo(0,e.height - 100);
+		ctx.lineTo(e.width,e.height - 100);
+		ctx.moveTo(0,100);
+		ctx.lineTo(e.width,100);
+		ctx.stroke();				
 		ctx.fillStyle="#FF0000";
 
-		ctx.arc(r,r,r,0,Math.PI*2,true);
+		// ctx.lineTo(r + 10,e.height - 100);
+		ctx.beginPath();
+
+		ctx.arc(r + 10,e.height - 100,r,0,Math.PI*2,true);
 		
 		ctx.fill();
+
+		return {
+			clear: function(){
+				e.clear()
+			},
+			do: function(){
+				var clockNum = 60;
+				var t = 0;
+
+				var self = this;
+				E.loop_num(function(){
+					self.clear();
+					ctx.beginPath();
+					ctx.strokeStyle = 'green';
+					ctx.moveTo(0,e.height - 100);
+					ctx.lineTo(e.width,e.height - 100);
+					ctx.moveTo(0,100);
+					ctx.lineTo(e.width,100);
+					ctx.stroke();				
+					ctx.fillStyle="#FF0000";
+
+					// ctx.lineTo(r + 10,e.height - 100);
+					var y = chart.tween(t,0,300,clockNum);
+					t++;
+					// console.log(t)
+
+					ctx.beginPath();
+
+					ctx.arc(r + 10,e.height - 100 - y,r,0,Math.PI*2,true);
+					
+					ctx.fill();
+				},clockNum)
+
+			}
+			
+		}
 	});
 	
 	function run(){
 		console.log('run')
-		
+		huakuai.do()
 		
 	}
 	function change(){
@@ -152,14 +221,14 @@
 	
 		
 		if(type == 'Linear'){
-			quxian.tween = E.tween[type];
+			chart.tween = E.tween[type];
 		}else{
-			quxian.tween = E.tween[type][ease];
+			chart.tween = E.tween[type][ease];
 		}
 		
 		console.log(type, ease, E.tween[type]);
 		
-		quxian.do();
+		chart.do();
 	}
 
 
