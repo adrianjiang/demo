@@ -70,12 +70,18 @@
 	<fieldset class="layui-elem-field">
 	  <legend>执行</legend>
 	  <div class="layui-field-box">
-			<div class="layui-form-item">
+			<!-- <div class="layui-form-item">
 			    <label class="layui-form-label">加速</label>
 			    <div class="layui-input-block">
 			      <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
 			    </div>
-		  	</div>
+		  	</div> -->
+		  	 <div class="layui-form-item">
+			    <label class="layui-form-label">速度</label>
+			    <div class="layui-input-inline">
+			      <input type="number" id="speed" name="username" lay-verify="required" placeholder="60" autocomplete="off" class="layui-input">
+			    </div>
+			  </div>
 		  	<!--<button type="jiang" class="layui-btn layui-btn-big">run</button>-->
 		  	<input type="button" onclick="run()" class="layui-btn layui-btn-big" value="run">
 	  </div>
@@ -113,11 +119,19 @@
 			x++;
 			var y = easeIn(x,0,300,e.width);
 			ctx.lineTo(x,e.height - 100 - y);
-			ctx.stroke();			
+			ctx.stroke();	
+
 		}
-		
+		// ctx.save();	
+		var imgData=ctx.getImageData(0,0,e.width,e.height);
+			
 //		console.log(x,e.width,y)
 		return {
+			imgData: imgData,
+			reset: function(){
+				ctx.putImageData(this.imgData,0,0);
+			},
+			ctx: ctx,
 			clear: function(){
 				e.clear()
 			},
@@ -145,6 +159,9 @@
 					ctx.lineTo(x,e.height - 100 - y);
 					ctx.stroke();			
 				}
+
+				var imgData=ctx.getImageData(0,0,e.width,e.height);
+				this.imgData = imgData;
 			}
 			
 		}
@@ -177,7 +194,10 @@
 				e.clear()
 			},
 			do: function(){
-				var clockNum = 60;
+				var clockNum = parseInt($('#speed').val()) || 60;
+
+				console.log('采样数',clockNum);
+
 				var t = 0;
 
 				var self = this;
@@ -190,18 +210,26 @@
 					ctx.moveTo(0,100);
 					ctx.lineTo(e.width,100);
 					ctx.stroke();				
-					ctx.fillStyle="#FF0000";
+					
 
 					// ctx.lineTo(r + 10,e.height - 100);
 					var y = chart.tween(t,0,300,clockNum);
 					t++;
 					// console.log(t)
-
 					ctx.beginPath();
-
+					ctx.fillStyle="#FF0000";
 					ctx.arc(r + 10,e.height - 100 - y,r,0,Math.PI*2,true);
 					
 					ctx.fill();
+
+					chart.reset();
+
+					chart.ctx.beginPath();
+					chart.ctx.strokeStyle = 'blue';
+					chart.ctx.moveTo(t * 600 / clockNum,0);
+					chart.ctx.lineTo(t * 600 / clockNum,e.height);
+					chart.ctx.stroke();				
+
 				},clockNum)
 
 			}
