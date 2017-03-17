@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <script type="text/javascript">
+    	
+   		document.addEventListener('plusready', function(){
+   			//console.log("所有plus api都应该在此事件发生后调用，否则会出现plus is undefined。"
+   			
+   		});
+   		
+   		
+    </script>
+    <style type="text/css">
+    	#box{
+    		width: 600px;
+    		height: 300px;
+    		background-color: beige
+    	}
+    </style>
+</head>
+<body>
+	<div id="box"></div>
+
+<script src="http://192.168.1.124:8000/assets/app.js"></script>
+	
+	<script type="text/javascript">
+		var swipe = E.canvas(E.getDom('#box'),function(e){
+			var img = new Image();
+			img.src = './img/201703091744206687.jpg'
+			
+			img.onload = function(){
+				var img_w = img.width;//图片真实宽度
+    			var img_h = img.height;//
+				e.context.drawImage(img, 0, 0, img_w, img_h, 0, 0, e.width, e.height);
+				e.imgW = img_w;
+				e.imgH = img_h;
+				e.img = img;
+			}
+			
+			return e;
+		})
+		
+		var startX = 0;
+		var startY = 0;
+		
+		E.event.touch(E.getDom('#box'),function(e){//start
+//			console.log(x,y)
+			
+		},function(e){//move
+//			console.log(x,y)
+			swipe.clear();
+			swipe.ctx.drawImage(swipe.img, startX + e.startX - e.x, 0, swipe.imgW, swipe.imgH, 0, 0, swipe.width, swipe.height);
+
+		},function(e){//end
+
+			startX = startX + e.startX - e.x;
+			console.log('结束拖动',startX);			
+//			startY = e.startY - e.x;
+			
+		});
+	</script>
+</body>
+</html>
